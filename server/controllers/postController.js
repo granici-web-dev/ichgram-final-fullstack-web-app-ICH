@@ -89,6 +89,23 @@ export const getUserPosts = async (req, res) => {
   }
 };
 
+// GET /api/posts/explore - случайные посты для раздела Explore
+export const getExplore = async (req, res) => {
+  try {
+    // $sample возвращает случайные документы
+    const sample = await Post.aggregate([{ $sample: { size: 30 } }]);
+    const posts = await Post.populate(sample, {
+      path: "author",
+      select: "username fullName avatar",
+    });
+    const enriched = await enrichPosts(posts, req.user.userId);
+    res.json(enriched);
+  } catch (error) {
+    console.error("Error fetching explore posts:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 // GET /api/posts/:id - один пост по id
 export const getPostById = async (req, res) => {
   try {

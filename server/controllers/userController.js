@@ -2,6 +2,32 @@ import User from "../models/User.js";
 import Post from "../models/Post.js";
 import Follow from "../models/Follow.js";
 
+// GET /api/users/search?q=... - поиск пользователей по username или имени
+export const searchUsers = async (req, res) => {
+  try {
+    const q = (req.query.q || "").trim();
+    if (!q) {
+      return res.json([]);
+    }
+
+    // Экранируем спецсимволы, чтобы кривой ввод не сломал регулярку
+    const safe = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(safe, "i");
+
+    const users = await User.find({
+      $or: [{ username: regex }, { fullName: regex }],
+      _id: { $ne: req.user.userId },
+    })
+      .select("username fullName avatar")
+      .limit(20);
+
+    res.json(users);
+  } catch (error) {
+    console.error("Error searching users:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 // GET /api/users/:id - получить профиль пользователя по id (со счётчиками)
 export const getUserById = async (req, res) => {
   try {

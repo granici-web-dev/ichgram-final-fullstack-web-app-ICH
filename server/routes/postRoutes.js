@@ -3,6 +3,7 @@ import {
   createPost,
   getAllPosts,
   getUserPosts,
+  getExplore,
   getPostById,
   updatePost,
   deletePost,
@@ -20,6 +21,9 @@ router.get("/", authenticateJWT, getAllPosts);
 
 // GET /api/posts/user/:userId - посты пользователя
 router.get("/user/:userId", authenticateJWT, getUserPosts);
+
+// GET /api/posts/explore - случайные посты (до /:id!)
+router.get("/explore", authenticateJWT, getExplore);
 
 // GET /api/posts/:id - пост по id
 router.get("/:id", authenticateJWT, getPostById);
