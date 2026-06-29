@@ -7,6 +7,8 @@ import { connectDB } from "./db/index.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
+import likeRoutes from "./routes/likeRoutes.js";
+import commentRoutes from "./routes/commentRoutes.js";
 
 dotenv.config();
 
@@ -37,6 +39,8 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
+app.use("/api/likes", likeRoutes);
+app.use("/api/comments", commentRoutes);
 
 io.on("connection", (socket) => {
   console.log("Socket connected:", socket.id);
