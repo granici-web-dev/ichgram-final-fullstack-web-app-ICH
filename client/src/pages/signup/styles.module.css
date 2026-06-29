@@ -1,0 +1,80 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 40px 0;
+  background-color: var(--color-bg);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 350px;
+  padding: 18px 40px 24px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 1px;
+}
+
+.subtitle {
+  margin-top: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.legal {
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.link {
+  color: var(--color-link-dark);
+}
+
+.error {
+  color: var(--color-error);
+  font-size: 12px;
+  text-align: center;
+}
+
+.form button {
+  margin-top: 12px;
+}
+
+.loginCard {
+  width: 350px;
+  padding: 24px;
+  text-align: center;
+  font-size: 14px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 1px;
+}
+
+.loginLink {
+  color: var(--color-primary);
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.loginLink:hover {
+  color: var(--color-primary-hover);
+}
