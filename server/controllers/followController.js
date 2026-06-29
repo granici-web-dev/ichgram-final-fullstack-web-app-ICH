@@ -1,4 +1,8 @@
 import Follow from "../models/Follow.js";
+import {
+  createNotification,
+  deleteNotification,
+} from "./notificationController.js";
 
 // POST /api/follow/:userId - подписаться на пользователя
 export const followUser = async (req, res) => {
@@ -23,6 +27,11 @@ export const followUser = async (req, res) => {
     }
 
     await Follow.create({ follower: followerId, following: followingId });
+    await createNotification({
+      recipient: followingId,
+      sender: followerId,
+      type: "follow",
+    });
     res.status(201).json({ message: "Подписка оформлена" });
   } catch (error) {
     console.error("Error following user:", error);
@@ -47,6 +56,11 @@ export const unfollowUser = async (req, res) => {
     }
 
     await existing.deleteOne();
+    await deleteNotification({
+      recipient: followingId,
+      sender: followerId,
+      type: "follow",
+    });
     res.json({ message: "Вы отписались" });
   } catch (error) {
     console.error("Error unfollowing user:", error);

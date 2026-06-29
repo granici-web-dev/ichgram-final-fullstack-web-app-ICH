@@ -1,4 +1,9 @@
 import Like from "../models/Like.js";
+import Post from "../models/Post.js";
+import {
+  createNotification,
+  deleteNotification,
+} from "./notificationController.js";
 
 // POST /api/likes/:postId - поставить или снять лайк (toggle)
 export const toggleLike = async (req, res) => {
@@ -6,16 +11,33 @@ export const toggleLike = async (req, res) => {
     const { postId } = req.params;
     const userId = req.user.userId;
 
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
     const existing = await Like.findOne({ user: userId, post: postId });
     if (existing) {
-      // Лайк уже есть — снимаем его
+      // Лайк уже есть — снимаем его и убираем уведомление
       await existing.deleteOne();
+      await deleteNotification({
+        recipient: post.author,
+        sender: userId,
+        type: "like",
+        post: postId,
+      });
       const likesCount = await Like.countDocuments({ post: postId });
       return res.json({ liked: false, likesCount });
     }
 
-    // Лайка нет — создаём
+    // Лайка нет — создаём и уведомляем автора поста
     await Like.create({ user: userId, post: postId });
+    await createNotification({
+      recipient: post.author,
+      sender: userId,
+      type: "like",
+      post: postId,
+    });
     const likesCount = await Like.countDocuments({ post: postId });
     res.json({ liked: true, likesCount });
   } catch (error) {

@@ -1,6 +1,7 @@
 import Post from "../models/Post.js";
 import Like from "../models/Like.js";
 import Comment from "../models/Comment.js";
+import Notification from "../models/Notification.js";
 
 // Извлекаем изображение из запроса: файл через multer (→ Base64) или готовая Base64-строка
 function getImageFromRequest(req) {
@@ -165,9 +166,10 @@ export const deletePost = async (req, res) => {
     }
 
     await post.deleteOne();
-    // Заодно чистим лайки и комментарии удалённого поста
+    // Заодно чистим лайки, комментарии и уведомления удалённого поста
     await Like.deleteMany({ post: post._id });
     await Comment.deleteMany({ post: post._id });
+    await Notification.deleteMany({ post: post._id });
     res.json({ message: "Пост удалён" });
   } catch (error) {
     console.error("Error deleting post:", error);

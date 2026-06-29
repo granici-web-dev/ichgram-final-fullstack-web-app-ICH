@@ -1,4 +1,6 @@
 import Comment from "../models/Comment.js";
+import Post from "../models/Post.js";
+import { createNotification } from "./notificationController.js";
 
 // POST /api/comments/:postId - добавить комментарий к посту
 export const addComment = async (req, res) => {
@@ -13,6 +15,17 @@ export const addComment = async (req, res) => {
       author: req.user.userId,
       post: req.params.postId,
     });
+
+    // Уведомляем автора поста о новом комментарии
+    const post = await Post.findById(req.params.postId);
+    if (post) {
+      await createNotification({
+        recipient: post.author,
+        sender: req.user.userId,
+        type: "comment",
+        post: req.params.postId,
+      });
+    }
 
     await comment.populate("author", "username fullName avatar");
     res.status(201).json(comment);
