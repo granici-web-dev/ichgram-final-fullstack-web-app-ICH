@@ -5,6 +5,7 @@ import { Server } from "socket.io";
 import dotenv from "dotenv";
 import { connectDB } from "./db/index.js";
 import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 dotenv.config();
 
@@ -33,6 +34,7 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 
 io.on("connection", (socket) => {
   console.log("Socket connected:", socket.id);
