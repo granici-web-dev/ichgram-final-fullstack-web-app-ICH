@@ -1,3 +1,20 @@
+:root {
+  /* Цвета (сняты с макета Figma) */
+  --color-primary: #0095f6;
+  --color-primary-hover: #1877f2;
+  --color-text: #000000;
+  --color-text-muted: #737373;
+  --color-link-dark: #00376b;
+  --color-border: #dbdbdb;
+  --color-bg: #ffffff;
+  --color-bg-muted: #fafafa;
+  --color-error: #ed4956;
+
+  /* Шрифты */
+  --font-base: 'Roboto', system-ui, -apple-system, sans-serif;
+  --font-logo: 'Grand Hotel', cursive;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -5,9 +22,9 @@
 }
 
 body {
-  font-family: 'Roboto', system-ui, -apple-system, sans-serif;
-  color: #000000;
-  background-color: #fafafa;
+  font-family: var(--font-base);
+  color: var(--color-text);
+  background-color: var(--color-bg-muted);
 }
 
 a {
