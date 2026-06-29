@@ -2,6 +2,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import User from "../models/User.js";
+import Post from "../models/Post.js";
+import Follow from "../models/Follow.js";
 
 dotenv.config();
 
@@ -93,14 +95,21 @@ export const login = async (req, res) => {
   }
 };
 
-// GET /api/auth/me - текущий пользователь по токену
+// GET /api/auth/me - текущий пользователь по токену (со счётчиками)
 export const getMe = async (req, res) => {
   try {
-    const user = await User.findById(req.user.userId).select("-password");
+    const user = await User.findById(req.user.userId).select("-password").lean();
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    res.json(user);
+
+    const [postsCount, followersCount, followingCount] = await Promise.all([
+      Post.countDocuments({ author: user._id }),
+      Follow.countDocuments({ following: user._id }),
+      Follow.countDocuments({ follower: user._id }),
+    ]);
+
+    res.json({ ...user, postsCount, followersCount, followingCount });
   } catch (error) {
     console.error("Error fetching current user:", error);
     res.status(500).json({ message: "Internal server error" });

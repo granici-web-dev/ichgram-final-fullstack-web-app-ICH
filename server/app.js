@@ -9,6 +9,7 @@ import userRoutes from "./routes/userRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 import likeRoutes from "./routes/likeRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
+import followRoutes from "./routes/followRoutes.js";
 
 dotenv.config();
 
@@ -41,6 +42,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/likes", likeRoutes);
 app.use("/api/comments", commentRoutes);
+app.use("/api/follow", followRoutes);
 
 io.on("connection", (socket) => {
   console.log("Socket connected:", socket.id);

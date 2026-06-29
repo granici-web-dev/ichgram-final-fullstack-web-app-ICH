@@ -1,13 +1,31 @@
 import User from "../models/User.js";
+import Post from "../models/Post.js";
+import Follow from "../models/Follow.js";
 
-// GET /api/users/:id - получить профиль пользователя по id
+// GET /api/users/:id - получить профиль пользователя по id (со счётчиками)
 export const getUserById = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).select("-password");
+    const user = await User.findById(req.params.id).select("-password").lean();
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    res.json(user);
+
+    // Счётчики профиля + подписан ли на него текущий пользователь
+    const [postsCount, followersCount, followingCount, isFollowing] =
+      await Promise.all([
+        Post.countDocuments({ author: user._id }),
+        Follow.countDocuments({ following: user._id }),
+        Follow.countDocuments({ follower: user._id }),
+        Follow.exists({ follower: req.user.userId, following: user._id }),
+      ]);
+
+    res.json({
+      ...user,
+      postsCount,
+      followersCount,
+      followingCount,
+      isFollowing: !!isFollowing,
+    });
   } catch (error) {
     console.error("Error fetching user:", error);
     res.status(500).json({ message: "Internal server error" });
