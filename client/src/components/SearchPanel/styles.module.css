@@ -108,3 +108,17 @@
   font-size: 14px;
   color: var(--color-text-muted);
 }
+
+@media (max-width: 768px) {
+  .backdrop { display: none; }
+  .panel {
+    left: 0;
+    top: 56px;
+    width: 100%;
+    height: calc(100vh - 56px);
+    border-radius: 0;
+    box-shadow: none;
+    border-right: none;
+    z-index: 18;
+  }
+}

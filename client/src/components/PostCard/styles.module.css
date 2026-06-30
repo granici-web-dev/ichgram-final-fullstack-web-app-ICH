@@ -1,5 +1,6 @@
 .card {
-  width: 404px;
+  width: 100%;
+  max-width: 404px;
 }
 
 .header {

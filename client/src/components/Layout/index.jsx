@@ -12,6 +12,7 @@ import messagesIcon from '../../assets/icons/messages.svg';
 import notificationsIcon from '../../assets/icons/notifications.svg';
 import createIcon from '../../assets/icons/create.svg';
 import logoutIcon from '../../assets/icons/logout.svg';
+import burgerIcon from '../../assets/icons/burger.svg';
 import styles from './styles.module.css';
 
 // Пункты меню: c полем `to` — ссылки, без него — кнопки (Search открывает панель,
@@ -32,6 +33,7 @@ function Layout() {
   const { user } = useSelector((state) => state.auth);
   const [searchOpen, setSearchOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   // Подгружаем текущего пользователя при входе в приложение
   useEffect(() => {
@@ -44,6 +46,7 @@ function Layout() {
   useEffect(() => {
     setSearchOpen(false);
     setNotificationsOpen(false);
+    setMobileOpen(false);
   }, [location.pathname]);
 
   const handleLogout = () => {
@@ -53,7 +56,33 @@ function Layout() {
 
   return (
     <div className={styles.layout}>
-      <aside className={styles.sidebar}>
+      {/* Верхняя панель только для мобильных — логотип + бургер */}
+      <header className={styles.topbar}>
+        <Link to="/">
+          <Logo width={90} />
+        </Link>
+        <button
+          type="button"
+          className={styles.burger}
+          onClick={() => setMobileOpen(true)}
+        >
+          <img src={burgerIcon} alt="menu" />
+        </button>
+      </header>
+
+      <aside
+        className={
+          mobileOpen ? `${styles.sidebar} ${styles.sidebarOpen}` : styles.sidebar
+        }
+      >
+        <button
+          type="button"
+          className={styles.close}
+          onClick={() => setMobileOpen(false)}
+        >
+          ×
+        </button>
+
         <Link to="/" className={styles.logo}>
           <Logo width={103} />
         </Link>

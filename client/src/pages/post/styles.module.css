@@ -303,3 +303,16 @@
   font-weight: 600;
   color: var(--color-error);
 }
+
+@media (max-width: 900px) {
+  .overlay { left: 0; }
+  .dialog {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    max-height: 92vh;
+  }
+  .imageBox { width: 100%; }
+  .image { aspect-ratio: 1 / 1; height: auto; }
+  .side { width: 100%; }
+}

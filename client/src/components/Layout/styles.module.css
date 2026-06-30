@@ -77,3 +77,59 @@
   flex: 1;
   margin-left: 245px;
 }
+
+/* Мобильный топбар и кнопка закрытия — скрыты на десктопе */
+.topbar,
+.close {
+  display: none;
+}
+
+/* ===== Адаптив ===== */
+@media (max-width: 768px) {
+  .topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    padding: 0 16px;
+    background-color: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .burger img {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* Сайдбар — выезжает на весь экран по бургеру */
+  .sidebar {
+    width: 100%;
+    z-index: 30;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+  }
+
+  .sidebarOpen {
+    transform: translateX(0);
+  }
+
+  .close {
+    display: block;
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 32px;
+    line-height: 1;
+    color: var(--color-text);
+  }
+
+  .content {
+    margin-left: 0;
+    padding-top: 56px;
+  }
+}
