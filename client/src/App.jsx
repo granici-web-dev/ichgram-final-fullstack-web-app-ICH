@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
+import Layout from './components/Layout';
 import Login from './pages/login';
 import SignUp from './pages/signup';
 import Reset from './pages/reset';
@@ -19,14 +20,16 @@ function App() {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/reset" element={<Reset />} />
 
-      {/* Защищённые маршруты */}
+      {/* Защищённые маршруты — внутри общего макета с боковым меню */}
       <Route element={<ProtectedRoute />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/explore" element={<Explore />} />
-        <Route path="/messages" element={<Messages />} />
-        <Route path="/profile/:username" element={<Profile />} />
-        <Route path="/edit-profile" element={<EditProfile />} />
-        <Route path="/add" element={<AddPost />} />
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/explore" element={<Explore />} />
+          <Route path="/messages" element={<Messages />} />
+          <Route path="/profile/:username" element={<Profile />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
+          <Route path="/add" element={<AddPost />} />
+        </Route>
       </Route>
 
       <Route path="*" element={<NotFound />} />
