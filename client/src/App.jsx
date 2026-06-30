@@ -32,6 +32,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/messages" element={<Messages />} />
+          <Route path="/messages/:userId" element={<Messages />} />
             <Route path="/profile/:userId" element={<Profile />} />
             <Route path="/edit-profile" element={<EditProfile />} />
             <Route path="/add" element={<AddPost />} />

@@ -17,10 +17,16 @@ export const fetchPost = createAsyncThunk(
 
 export const fetchComments = createAsyncThunk(
   'post/fetchComments',
-  async (postId, { rejectWithValue }) => {
+  async (postId, { getState, rejectWithValue }) => {
     try {
       const response = await api.get(`/comments/${postId}`);
-      return response.data;
+      const myId = getState().auth.user?._id;
+      // Считаем лайки комментария и поставил ли лайк текущий пользователь
+      return response.data.map((comment) => ({
+        ...comment,
+        likesCount: comment.likes?.length || 0,
+        isLiked: (comment.likes || []).some((id) => id === myId),
+      }));
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || 'Ошибка загрузки комментариев',
@@ -83,9 +89,28 @@ export const togglePostLike = createAsyncThunk(
   },
 );
 
+export const toggleCommentLike = createAsyncThunk(
+  'post/toggleCommentLike',
+  async (commentId, { rejectWithValue }) => {
+    try {
+      const response = await api.post(`/comments/${commentId}/like`);
+      return { commentId, ...response.data };
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Ошибка лайка');
+    }
+  },
+);
+
 function flipLike(post) {
   post.isLiked = !post.isLiked;
   post.likesCount += post.isLiked ? 1 : -1;
+}
+
+function flipCommentLike(state, commentId) {
+  const comment = state.comments.find((item) => item._id === commentId);
+  if (!comment) return;
+  comment.isLiked = !comment.isLiked;
+  comment.likesCount += comment.isLiked ? 1 : -1;
 }
 
 const postSlice = createSlice({
@@ -117,10 +142,30 @@ const postSlice = createSlice({
         state.comments = action.payload;
       })
       .addCase(addComment.fulfilled, (state, action) => {
-        state.comments.push(action.payload);
+        state.comments.push({
+          ...action.payload,
+          likesCount: 0,
+          isLiked: false,
+        });
         if (state.post) {
           state.post.commentsCount += 1;
         }
+      })
+      // Лайк комментария — оптимистично, с откатом при ошибке
+      .addCase(toggleCommentLike.pending, (state, action) => {
+        flipCommentLike(state, action.meta.arg);
+      })
+      .addCase(toggleCommentLike.fulfilled, (state, action) => {
+        const comment = state.comments.find(
+          (item) => item._id === action.payload.commentId,
+        );
+        if (comment) {
+          comment.isLiked = action.payload.liked;
+          comment.likesCount = action.payload.likesCount;
+        }
+      })
+      .addCase(toggleCommentLike.rejected, (state, action) => {
+        flipCommentLike(state, action.meta.arg);
       })
       .addCase(updatePost.fulfilled, (state, action) => {
         state.post = action.payload;

@@ -2,6 +2,7 @@ import Post from "../models/Post.js";
 import Like from "../models/Like.js";
 import Comment from "../models/Comment.js";
 import Notification from "../models/Notification.js";
+import Follow from "../models/Follow.js";
 
 // Извлекаем изображение из запроса: файл через multer (→ Base64) или готовая Base64-строка
 function getImageFromRequest(req) {
@@ -68,6 +69,18 @@ export const getAllPosts = async (req, res) => {
       .populate("author", "username fullName avatar")
       .lean();
     const enriched = await enrichPosts(posts, req.user.userId);
+
+    // Добавляем флаг: подписан ли текущий пользователь на автора поста
+    const following = await Follow.find({ follower: req.user.userId })
+      .select("following")
+      .lean();
+    const followingSet = new Set(following.map((f) => f.following.toString()));
+    enriched.forEach((post) => {
+      if (post.author) {
+        post.author.isFollowing = followingSet.has(post.author._id.toString());
+      }
+    });
+
     res.json(enriched);
   } catch (error) {
     console.error("Error fetching posts:", error);

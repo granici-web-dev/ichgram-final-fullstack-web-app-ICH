@@ -6,6 +6,7 @@ import profileReducer from './slices/profileSlice';
 import exploreReducer from './slices/exploreSlice';
 import searchReducer from './slices/searchSlice';
 import notificationsReducer from './slices/notificationsSlice';
+import messagesReducer from './slices/messagesSlice';
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     explore: exploreReducer,
     search: searchReducer,
     notifications: notificationsReducer,
+    messages: messagesReducer,
   },
 });
 

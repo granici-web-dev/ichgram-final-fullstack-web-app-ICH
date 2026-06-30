@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import EmojiPicker from 'emoji-picker-react';
 import {
   fetchPost,
   fetchComments,
@@ -8,6 +9,7 @@ import {
   updatePost,
   deletePost,
   togglePostLike,
+  toggleCommentLike,
 } from '../../redux/slices/postSlice';
 import { removePost, replacePost } from '../../redux/slices/postsSlice';
 import { removeProfilePost } from '../../redux/slices/profileSlice';
@@ -32,6 +34,7 @@ function PostModal() {
   const [copied, setCopied] = useState(false);
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState('');
+  const [showEmoji, setShowEmoji] = useState(false);
 
   useEffect(() => {
     dispatch(fetchPost(postId));
@@ -176,8 +179,20 @@ function PostModal() {
                   </p>
                   <span className={styles.commentTime}>
                     {timeAgo(comment.createdAt)}
+                    {comment.likesCount > 0 && ` · Likes: ${comment.likesCount}`}
                   </span>
                 </div>
+
+                <button
+                  type="button"
+                  className={styles.commentLike}
+                  onClick={() => dispatch(toggleCommentLike(comment._id))}
+                >
+                  <img
+                    src={comment.isLiked ? likeActiveIcon : likeIcon}
+                    alt="like"
+                  />
+                </button>
               </div>
             ))}
           </div>
@@ -224,7 +239,24 @@ function PostModal() {
             </div>
           ) : (
             <form className={styles.form} onSubmit={handleSend}>
-              <img className={styles.emoji} src={emojiIcon} alt="" />
+              {showEmoji && (
+                <div className={styles.emojiPopover}>
+                  <EmojiPicker
+                    width={320}
+                    height={380}
+                    onEmojiClick={(emojiData) =>
+                      setText((prev) => prev + emojiData.emoji)
+                    }
+                  />
+                </div>
+              )}
+              <button
+                type="button"
+                className={styles.emojiButton}
+                onClick={() => setShowEmoji((value) => !value)}
+              >
+                <img className={styles.emoji} src={emojiIcon} alt="emoji" />
+              </button>
               <input
                 className={styles.input}
                 placeholder="Add comment"

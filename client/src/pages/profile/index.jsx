@@ -60,7 +60,7 @@ function Profile() {
                 >
                   {user.isFollowing ? 'Following' : 'Follow'}
                 </button>
-                <Link to="/messages" className={styles.greyButton}>
+                <Link to={`/messages/${user._id}`} className={styles.greyButton}>
                   Message
                 </Link>
               </>

@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { toggleLike } from '../../redux/slices/postsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleLike, toggleFollow } from '../../redux/slices/postsSlice';
 import { timeAgo } from '../../utils/timeAgo';
 import likeIcon from '../../assets/icons/like.svg';
 import likeActiveIcon from '../../assets/icons/like-active.svg';
@@ -10,11 +10,20 @@ import styles from './styles.module.css';
 function PostCard({ post }) {
   const dispatch = useDispatch();
   const location = useLocation();
+  const currentUser = useSelector((state) => state.auth.user);
   const { author, image, description, createdAt } = post;
   const { likesCount, commentsCount, isLiked } = post;
 
+  const isOwn = currentUser && currentUser._id === author._id;
+
   const handleLike = () => {
     dispatch(toggleLike(post._id));
+  };
+
+  const handleFollow = () => {
+    dispatch(
+      toggleFollow({ userId: author._id, isFollowing: author.isFollowing }),
+    );
   };
 
   return (
@@ -32,10 +41,18 @@ function PostCard({ post }) {
         </Link>
         <span className={styles.dot}>•</span>
         <span className={styles.time}>{timeAgo(createdAt)}</span>
-        <span className={styles.dot}>•</span>
-        <button type="button" className={styles.follow}>
-          follow
-        </button>
+        {!isOwn && !author.isFollowing && (
+          <>
+            <span className={styles.dot}>•</span>
+            <button
+              type="button"
+              className={styles.follow}
+              onClick={handleFollow}
+            >
+              follow
+            </button>
+          </>
+        )}
       </header>
 
       <Link to={`/post/${post._id}`} state={{ background: location }}>

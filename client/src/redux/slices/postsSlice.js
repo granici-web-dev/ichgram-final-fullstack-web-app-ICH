@@ -41,12 +41,37 @@ export const toggleLike = createAsyncThunk(
   },
 );
 
+export const toggleFollow = createAsyncThunk(
+  'posts/toggleFollow',
+  async ({ userId, isFollowing }, { rejectWithValue }) => {
+    try {
+      if (isFollowing) {
+        await api.delete(`/follow/${userId}`);
+      } else {
+        await api.post(`/follow/${userId}`);
+      }
+      return { userId, isFollowing: !isFollowing };
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Ошибка подписки');
+    }
+  },
+);
+
 // Переключаем лайк у поста в стейте (используем для оптимистичного обновления)
 function flipLike(state, postId) {
   const post = state.items.find((item) => item._id === postId);
   if (!post) return;
   post.isLiked = !post.isLiked;
   post.likesCount += post.isLiked ? 1 : -1;
+}
+
+// Обновляем флаг подписки у всех постов этого автора в ленте
+function setAuthorFollow(state, userId, value) {
+  state.items.forEach((post) => {
+    if (post.author?._id === userId) {
+      post.author.isFollowing = value;
+    }
+  });
 }
 
 const postsSlice = createSlice({
@@ -105,6 +130,18 @@ const postsSlice = createSlice({
       .addCase(toggleLike.rejected, (state, action) => {
         // Запрос упал — откатываем оптимистичное изменение обратно
         flipLike(state, action.meta.arg);
+      })
+      // Подписка/отписка на автора прямо из ленты (оптимистично)
+      .addCase(toggleFollow.pending, (state, action) => {
+        const { userId, isFollowing } = action.meta.arg;
+        setAuthorFollow(state, userId, !isFollowing);
+      })
+      .addCase(toggleFollow.fulfilled, (state, action) => {
+        setAuthorFollow(state, action.payload.userId, action.payload.isFollowing);
+      })
+      .addCase(toggleFollow.rejected, (state, action) => {
+        const { userId, isFollowing } = action.meta.arg;
+        setAuthorFollow(state, userId, isFollowing);
       });
   },
 });

@@ -48,6 +48,30 @@ export const getComments = async (req, res) => {
   }
 };
 
+// POST /api/comments/:id/like - поставить/снять лайк комментарию (toggle)
+export const toggleCommentLike = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const comment = await Comment.findById(req.params.id);
+    if (!comment) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
+
+    const index = comment.likes.findIndex((id) => id.toString() === userId);
+    if (index === -1) {
+      comment.likes.push(userId);
+    } else {
+      comment.likes.splice(index, 1);
+    }
+    await comment.save();
+
+    res.json({ liked: index === -1, likesCount: comment.likes.length });
+  } catch (error) {
+    console.error("Error toggling comment like:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 // DELETE /api/comments/:id - удалить свой комментарий
 export const deleteComment = async (req, res) => {
   try {
