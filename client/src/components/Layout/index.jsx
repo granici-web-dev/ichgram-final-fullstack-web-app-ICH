@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchMe } from '../../redux/slices/authSlice';
 import Logo from '../Logo';
 import SearchPanel from '../SearchPanel';
+import NotificationsPanel from '../NotificationsPanel';
 import homeIcon from '../../assets/icons/home.svg';
 import searchIcon from '../../assets/icons/search.svg';
 import exploreIcon from '../../assets/icons/explore.svg';
@@ -28,6 +29,7 @@ function Layout() {
   const location = useLocation();
   const { user } = useSelector((state) => state.auth);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
 
   // Подгружаем текущего пользователя при входе в приложение
   useEffect(() => {
@@ -36,9 +38,10 @@ function Layout() {
     }
   }, [dispatch, user]);
 
-  // Закрываем панель поиска при переходе на другую страницу
+  // Закрываем выезжающие панели при переходе на другую страницу
   useEffect(() => {
     setSearchOpen(false);
+    setNotificationsOpen(false);
   }, [location.pathname]);
 
   return (
@@ -67,13 +70,19 @@ function Layout() {
                 key={item.label}
                 type="button"
                 className={
-                  item.label === 'Search' && searchOpen
+                  (item.label === 'Search' && searchOpen) ||
+                  (item.label === 'Notifications' && notificationsOpen)
                     ? `${styles.link} ${styles.active}`
                     : styles.link
                 }
                 onClick={() => {
                   if (item.label === 'Search') {
+                    setNotificationsOpen(false);
                     setSearchOpen((open) => !open);
+                  }
+                  if (item.label === 'Notifications') {
+                    setSearchOpen(false);
+                    setNotificationsOpen((open) => !open);
                   }
                 }}
               >
@@ -102,6 +111,9 @@ function Layout() {
       </aside>
 
       {searchOpen && <SearchPanel onClose={() => setSearchOpen(false)} />}
+      {notificationsOpen && (
+        <NotificationsPanel onClose={() => setNotificationsOpen(false)} />
+      )}
 
       <main className={styles.content}>
         <Outlet />

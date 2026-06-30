@@ -5,6 +5,7 @@ import postReducer from './slices/postSlice';
 import profileReducer from './slices/profileSlice';
 import exploreReducer from './slices/exploreSlice';
 import searchReducer from './slices/searchSlice';
+import notificationsReducer from './slices/notificationsSlice';
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     profile: profileReducer,
     explore: exploreReducer,
     search: searchReducer,
+    notifications: notificationsReducer,
   },
 });
 
