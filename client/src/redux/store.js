@@ -4,6 +4,7 @@ import postsReducer from './slices/postsSlice';
 import postReducer from './slices/postSlice';
 import profileReducer from './slices/profileSlice';
 import exploreReducer from './slices/exploreSlice';
+import searchReducer from './slices/searchSlice';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     post: postReducer,
     profile: profileReducer,
     explore: exploreReducer,
+    search: searchReducer,
   },
 });
 
