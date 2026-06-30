@@ -6,24 +6,30 @@ import Logo from '../Logo';
 import SearchPanel from '../SearchPanel';
 import NotificationsPanel from '../NotificationsPanel';
 import homeIcon from '../../assets/icons/home.svg';
+import homeActiveIcon from '../../assets/icons/home-active.svg';
 import searchIcon from '../../assets/icons/search.svg';
+import searchActiveIcon from '../../assets/icons/search-active.svg';
 import exploreIcon from '../../assets/icons/explore.svg';
+import exploreActiveIcon from '../../assets/icons/explore-active.svg';
 import messagesIcon from '../../assets/icons/messages.svg';
+import messagesActiveIcon from '../../assets/icons/messages-active.svg';
 import notificationsIcon from '../../assets/icons/notifications.svg';
+import notificationsActiveIcon from '../../assets/icons/notifications-active.svg';
 import createIcon from '../../assets/icons/create.svg';
+import createActiveIcon from '../../assets/icons/create-active.svg';
 import logoutIcon from '../../assets/icons/logout.svg';
 import burgerIcon from '../../assets/icons/burger.svg';
 import styles from './styles.module.css';
 
 // Пункты меню: c полем `to` — ссылки, без него — кнопки (Search открывает панель,
-// Notifications сделаем позже)
+// Notifications сделаем позже). У каждого пункта своя активная (solid) иконка
 const navItems = [
-  { label: 'Home', icon: homeIcon, to: '/' },
-  { label: 'Search', icon: searchIcon },
-  { label: 'Explore', icon: exploreIcon, to: '/explore' },
-  { label: 'Messages', icon: messagesIcon, to: '/messages' },
-  { label: 'Notifications', icon: notificationsIcon },
-  { label: 'Create', icon: createIcon, to: '/add' },
+  { label: 'Home', icon: homeIcon, iconActive: homeActiveIcon, to: '/' },
+  { label: 'Search', icon: searchIcon, iconActive: searchActiveIcon },
+  { label: 'Explore', icon: exploreIcon, iconActive: exploreActiveIcon, to: '/explore' },
+  { label: 'Messages', icon: messagesIcon, iconActive: messagesActiveIcon, to: '/messages' },
+  { label: 'Notifications', icon: notificationsIcon, iconActive: notificationsActiveIcon },
+  { label: 'Create', icon: createIcon, iconActive: createActiveIcon, to: '/add' },
 ];
 
 function Layout() {
@@ -98,33 +104,47 @@ function Layout() {
                   isActive ? `${styles.link} ${styles.active}` : styles.link
                 }
               >
-                <img className={styles.icon} src={item.icon} alt="" />
-                <span>{item.label}</span>
+                {({ isActive }) => (
+                  <>
+                    <img
+                      className={styles.icon}
+                      src={isActive ? item.iconActive : item.icon}
+                      alt=""
+                    />
+                    <span>{item.label}</span>
+                  </>
+                )}
               </NavLink>
             ) : (
-              <button
-                key={item.label}
-                type="button"
-                className={
+              (() => {
+                const isOpen =
                   (item.label === 'Search' && searchOpen) ||
-                  (item.label === 'Notifications' && notificationsOpen)
-                    ? `${styles.link} ${styles.active}`
-                    : styles.link
-                }
-                onClick={() => {
-                  if (item.label === 'Search') {
-                    setNotificationsOpen(false);
-                    setSearchOpen((open) => !open);
-                  }
-                  if (item.label === 'Notifications') {
-                    setSearchOpen(false);
-                    setNotificationsOpen((open) => !open);
-                  }
-                }}
-              >
-                <img className={styles.icon} src={item.icon} alt="" />
-                <span>{item.label}</span>
-              </button>
+                  (item.label === 'Notifications' && notificationsOpen);
+                return (
+                  <button
+                    key={item.label}
+                    type="button"
+                    className={isOpen ? `${styles.link} ${styles.active}` : styles.link}
+                    onClick={() => {
+                      if (item.label === 'Search') {
+                        setNotificationsOpen(false);
+                        setSearchOpen((open) => !open);
+                      }
+                      if (item.label === 'Notifications') {
+                        setSearchOpen(false);
+                        setNotificationsOpen((open) => !open);
+                      }
+                    }}
+                  >
+                    <img
+                      className={styles.icon}
+                      src={isOpen ? item.iconActive : item.icon}
+                      alt=""
+                    />
+                    <span>{item.label}</span>
+                  </button>
+                );
+              })()
             ),
           )}
 
