@@ -3,6 +3,8 @@
   flex-direction: column;
   align-items: center;
   gap: 16px;
+  /* Прижимаем футер к низу страницы, если контента мало */
+  margin-top: auto;
   padding: 40px 0;
 }
 

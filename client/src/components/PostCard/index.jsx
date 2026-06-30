@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { toggleLike } from '../../redux/slices/postsSlice';
 import { timeAgo } from '../../utils/timeAgo';
@@ -9,6 +9,7 @@ import styles from './styles.module.css';
 
 function PostCard({ post }) {
   const dispatch = useDispatch();
+  const location = useLocation();
   const { author, image, description, createdAt } = post;
   const { likesCount, commentsCount, isLiked } = post;
 
@@ -19,14 +20,14 @@ function PostCard({ post }) {
   return (
     <article className={styles.card}>
       <header className={styles.header}>
-        <Link to={`/profile/${author.username}`} className={styles.avatarLink}>
+        <Link to={`/profile/${author._id}`} className={styles.avatarLink}>
           {author.avatar ? (
             <img className={styles.avatar} src={author.avatar} alt="" />
           ) : (
             <span className={styles.avatar} />
           )}
         </Link>
-        <Link to={`/profile/${author.username}`} className={styles.username}>
+        <Link to={`/profile/${author._id}`} className={styles.username}>
           {author.username}
         </Link>
         <span className={styles.dot}>•</span>
@@ -43,16 +44,20 @@ function PostCard({ post }) {
         <button type="button" className={styles.action} onClick={handleLike}>
           <img src={isLiked ? likeActiveIcon : likeIcon} alt="like" />
         </button>
-        <button type="button" className={styles.action}>
+        <Link
+          to={`/post/${post._id}`}
+          state={{ background: location }}
+          className={styles.action}
+        >
           <img src={commentIcon} alt="comment" />
-        </button>
+        </Link>
       </div>
 
       <p className={styles.likes}>{likesCount.toLocaleString()} likes</p>
 
       {description && (
         <p className={styles.caption}>
-          <Link to={`/profile/${author.username}`} className={styles.captionUser}>
+          <Link to={`/profile/${author._id}`} className={styles.captionUser}>
             {author.username}
           </Link>{' '}
           {description}
@@ -60,7 +65,13 @@ function PostCard({ post }) {
       )}
 
       {commentsCount > 0 && (
-        <p className={styles.comments}>View all comments ({commentsCount})</p>
+        <Link
+          to={`/post/${post._id}`}
+          state={{ background: location }}
+          className={styles.comments}
+        >
+          View all comments ({commentsCount})
+        </Link>
       )}
     </article>
   );

@@ -63,7 +63,7 @@ function Layout() {
           )}
 
           <NavLink
-            to={user ? `/profile/${user.username}` : '/profile'}
+            to={user ? `/profile/${user._id}` : '/profile'}
             className={({ isActive }) =>
               isActive
                 ? `${styles.link} ${styles.profile} ${styles.active}`

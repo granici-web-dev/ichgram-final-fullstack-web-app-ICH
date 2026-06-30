@@ -67,6 +67,8 @@
 }
 
 .content {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   margin-left: 245px;
 }

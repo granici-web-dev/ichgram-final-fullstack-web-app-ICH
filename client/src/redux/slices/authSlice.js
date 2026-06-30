@@ -39,6 +39,20 @@ export const fetchMe = createAsyncThunk(
   },
 );
 
+export const updateProfile = createAsyncThunk(
+  'auth/updateProfile',
+  async (formData, { rejectWithValue }) => {
+    try {
+      const response = await api.put('/users/me', formData);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || 'Ошибка обновления профиля',
+      );
+    }
+  },
+);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -85,6 +99,9 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(fetchMe.fulfilled, (state, action) => {
+        state.user = action.payload;
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
         state.user = action.payload;
       })
       .addCase(fetchMe.rejected, (state) => {

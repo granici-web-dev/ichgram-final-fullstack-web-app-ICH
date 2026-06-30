@@ -1,5 +1,9 @@
 .page {
-  max-width: 847px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 847px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 60px 0 20px;
 }

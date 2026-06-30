@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';
 import Login from './pages/login';
@@ -10,30 +10,46 @@ import Messages from './pages/messages';
 import Profile from './pages/profile';
 import EditProfile from './pages/editProfile';
 import AddPost from './pages/addPost';
+import PostModal from './pages/post';
 import NotFound from './pages/notFound';
 
 function App() {
+  const location = useLocation();
+  // Если открыли пост из ленты/профиля — под модалкой остаётся прежняя страница
+  const background = location.state?.background;
+
   return (
-    <Routes>
-      {/* Публичные маршруты */}
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/reset" element={<Reset />} />
+    <>
+      <Routes location={background || location}>
+        {/* Публичные маршруты */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/reset" element={<Reset />} />
 
-      {/* Защищённые маршруты — внутри общего макета с боковым меню */}
-      <Route element={<ProtectedRoute />}>
-        <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/explore" element={<Explore />} />
-          <Route path="/messages" element={<Messages />} />
-          <Route path="/profile/:username" element={<Profile />} />
-          <Route path="/edit-profile" element={<EditProfile />} />
-          <Route path="/add" element={<AddPost />} />
+        {/* Защищённые маршруты — внутри общего макета с боковым меню */}
+        <Route element={<ProtectedRoute />}>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/explore" element={<Explore />} />
+            <Route path="/messages" element={<Messages />} />
+            <Route path="/profile/:userId" element={<Profile />} />
+            <Route path="/edit-profile" element={<EditProfile />} />
+            <Route path="/add" element={<AddPost />} />
+            {/* Прямой переход по ссылке на пост (без фона) */}
+            <Route path="/post/:postId" element={<PostModal />} />
+          </Route>
         </Route>
-      </Route>
 
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+
+      {/* Модалка поста поверх страницы-фона */}
+      {background && (
+        <Routes>
+          <Route path="/post/:postId" element={<PostModal />} />
+        </Routes>
+      )}
+    </>
   );
 }
 

@@ -1,0 +1,142 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 620px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 30px 0 20px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 16px;
+  background-color: #efefef;
+  border-radius: 20px;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--color-border);
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cardName {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.cardBio {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.newPhoto {
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: #ffffff;
+  background-color: var(--color-primary);
+}
+
+.newPhoto:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.label {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.input {
+  padding: 12px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  font-size: 14px;
+  outline: none;
+}
+
+.input:focus {
+  border-color: var(--color-text-muted);
+}
+
+.textareaWrap {
+  position: relative;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 84px;
+  padding: 12px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  resize: none;
+  outline: none;
+}
+
+.textarea:focus {
+  border-color: var(--color-text-muted);
+}
+
+.counter {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.error {
+  margin-bottom: 12px;
+  font-size: 12px;
+  color: var(--color-error);
+}
+
+.save {
+  width: 268px;
+  padding: 9px 0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: var(--color-primary);
+}
+
+.save:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.save:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
