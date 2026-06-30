@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import EmojiPicker from 'emoji-picker-react';
 import { createPost } from '../../redux/slices/postsSlice';
 import uploadCloud from '../../assets/upload-cloud.png';
 import emojiIcon from '../../assets/icons/emoji.svg';
@@ -19,6 +20,7 @@ function AddPost() {
   const [caption, setCaption] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [showEmoji, setShowEmoji] = useState(false);
 
   const handleFile = (event) => {
     const selected = event.target.files[0];
@@ -103,10 +105,28 @@ function AddPost() {
             />
 
             <div className={styles.meta}>
-              <img className={styles.emoji} src={emojiIcon} alt="" />
+              <button
+                type="button"
+                className={styles.emojiButton}
+                onClick={() => setShowEmoji((value) => !value)}
+              >
+                <img className={styles.emoji} src={emojiIcon} alt="emoji" />
+              </button>
               <span className={styles.counter}>
                 {caption.length}/{MAX_LENGTH}
               </span>
+
+              {showEmoji && (
+                <div className={styles.emojiPopover}>
+                  <EmojiPicker
+                    width={320}
+                    height={380}
+                    onEmojiClick={(emojiData) =>
+                      setCaption((prev) => prev + emojiData.emoji)
+                    }
+                  />
+                </div>
+              )}
             </div>
 
             {error && <p className={styles.error}>{error}</p>}
