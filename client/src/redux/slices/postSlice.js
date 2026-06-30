@@ -43,6 +43,34 @@ export const addComment = createAsyncThunk(
   },
 );
 
+export const updatePost = createAsyncThunk(
+  'post/updatePost',
+  async ({ postId, description }, { rejectWithValue }) => {
+    try {
+      const response = await api.put(`/posts/${postId}`, { description });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || 'Ошибка обновления поста',
+      );
+    }
+  },
+);
+
+export const deletePost = createAsyncThunk(
+  'post/deletePost',
+  async (postId, { rejectWithValue }) => {
+    try {
+      await api.delete(`/posts/${postId}`);
+      return postId;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || 'Ошибка удаления поста',
+      );
+    }
+  },
+);
+
 export const togglePostLike = createAsyncThunk(
   'post/togglePostLike',
   async (postId, { rejectWithValue }) => {
@@ -93,6 +121,9 @@ const postSlice = createSlice({
         if (state.post) {
           state.post.commentsCount += 1;
         }
+      })
+      .addCase(updatePost.fulfilled, (state, action) => {
+        state.post = action.payload;
       })
       // Лайк поста — тот же оптимистичный приём, что и в ленте
       .addCase(togglePostLike.pending, (state) => {

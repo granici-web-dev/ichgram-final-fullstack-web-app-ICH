@@ -5,13 +5,18 @@ import {
   fetchPost,
   fetchComments,
   addComment,
+  updatePost,
+  deletePost,
   togglePostLike,
 } from '../../redux/slices/postSlice';
+import { removePost, replacePost } from '../../redux/slices/postsSlice';
+import { removeProfilePost } from '../../redux/slices/profileSlice';
 import { timeAgo } from '../../utils/timeAgo';
 import likeIcon from '../../assets/icons/like.svg';
 import likeActiveIcon from '../../assets/icons/like-active.svg';
 import commentIcon from '../../assets/icons/comment.svg';
 import emojiIcon from '../../assets/icons/emoji.svg';
+import optionsIcon from '../../assets/icons/options.svg';
 import styles from './styles.module.css';
 
 function PostModal() {
@@ -19,12 +24,21 @@ function PostModal() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { post, comments } = useSelector((state) => state.post);
+  const currentUser = useSelector((state) => state.auth.user);
+
   const [text, setText] = useState('');
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [editText, setEditText] = useState('');
 
   useEffect(() => {
     dispatch(fetchPost(postId));
     dispatch(fetchComments(postId));
   }, [dispatch, postId]);
+
+  const close = () => navigate(-1);
 
   const handleSend = async (event) => {
     event.preventDefault();
@@ -36,7 +50,44 @@ function PostModal() {
     }
   };
 
-  const close = () => navigate(-1);
+  const handleDelete = async () => {
+    const result = await dispatch(deletePost(postId));
+    if (deletePost.fulfilled.match(result)) {
+      dispatch(removePost(postId));
+      dispatch(removeProfilePost(postId));
+      navigate(-1);
+    }
+  };
+
+  const handleEditStart = () => {
+    setEditText(post.description || '');
+    setEditing(true);
+    setMenuOpen(false);
+  };
+
+  const handleEditSave = async () => {
+    const result = await dispatch(updatePost({ postId, description: editText }));
+    if (updatePost.fulfilled.match(result)) {
+      dispatch(replacePost(result.payload));
+      setEditing(false);
+    }
+  };
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+    setConfirmDelete(false);
+    setCopied(false);
+  };
+
+  const handleGoToPost = () => {
+    closeMenu();
+    navigate(`/post/${postId}`);
+  };
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(`${window.location.origin}/post/${postId}`);
+    setCopied(true);
+  };
 
   if (!post) {
     return (
@@ -46,8 +97,8 @@ function PostModal() {
     );
   }
 
-  // Подпись автора показываем первой строкой, как комментарий
   const author = post.author;
+  const isOwn = currentUser && author._id === currentUser._id;
 
   return (
     <div className={styles.overlay} onClick={close}>
@@ -66,6 +117,15 @@ function PostModal() {
               )}
               <span className={styles.username}>{author.username}</span>
             </Link>
+            {isOwn && (
+              <button
+                type="button"
+                className={styles.options}
+                onClick={() => setMenuOpen(true)}
+              >
+                <img src={optionsIcon} alt="options" />
+              </button>
+            )}
           </header>
 
           <div className={styles.comments}>
@@ -138,20 +198,116 @@ function PostModal() {
           <p className={styles.likes}>{post.likesCount.toLocaleString()} likes</p>
           <span className={styles.time}>{timeAgo(post.createdAt)}</span>
 
-          <form className={styles.form} onSubmit={handleSend}>
-            <img className={styles.emoji} src={emojiIcon} alt="" />
-            <input
-              className={styles.input}
-              placeholder="Add comment"
-              value={text}
-              onChange={(event) => setText(event.target.value)}
-            />
-            <button type="submit" className={styles.send} disabled={!text.trim()}>
-              Send
-            </button>
-          </form>
+          {editing ? (
+            <div className={styles.editForm}>
+              <textarea
+                className={styles.editInput}
+                value={editText}
+                onChange={(event) => setEditText(event.target.value)}
+              />
+              <div className={styles.editButtons}>
+                <button
+                  type="button"
+                  className={styles.editCancel}
+                  onClick={() => setEditing(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className={styles.editSave}
+                  onClick={handleEditSave}
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          ) : (
+            <form className={styles.form} onSubmit={handleSend}>
+              <img className={styles.emoji} src={emojiIcon} alt="" />
+              <input
+                className={styles.input}
+                placeholder="Add comment"
+                value={text}
+                onChange={(event) => setText(event.target.value)}
+              />
+              <button
+                type="submit"
+                className={styles.send}
+                disabled={!text.trim()}
+              >
+                Send
+              </button>
+            </form>
+          )}
         </div>
       </div>
+
+      {menuOpen && (
+        <div
+          className={styles.menuOverlay}
+          onClick={(event) => {
+            event.stopPropagation();
+            closeMenu();
+          }}
+        >
+          <div className={styles.menu} onClick={(event) => event.stopPropagation()}>
+            {confirmDelete ? (
+              <>
+                <p className={styles.menuTitle}>Delete this post?</p>
+                <button
+                  type="button"
+                  className={`${styles.menuItem} ${styles.menuDanger}`}
+                  onClick={handleDelete}
+                >
+                  Delete
+                </button>
+                <button
+                  type="button"
+                  className={styles.menuItem}
+                  onClick={() => setConfirmDelete(false)}
+                >
+                  Cancel
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className={`${styles.menuItem} ${styles.menuDanger}`}
+                  onClick={() => setConfirmDelete(true)}
+                >
+                  Delete
+                </button>
+                <button
+                  type="button"
+                  className={styles.menuItem}
+                  onClick={handleEditStart}
+                >
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  className={styles.menuItem}
+                  onClick={handleGoToPost}
+                >
+                  Go to post
+                </button>
+                <button
+                  type="button"
+                  className={styles.menuItem}
+                  onClick={handleCopyLink}
+                >
+                  {copied ? 'Link copied!' : 'Copy link'}
+                </button>
+                <button type="button" className={styles.menuItem} onClick={closeMenu}>
+                  Cancel
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

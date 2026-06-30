@@ -38,7 +38,9 @@ function PostCard({ post }) {
         </button>
       </header>
 
-      <img className={styles.image} src={image} alt={description} />
+      <Link to={`/post/${post._id}`} state={{ background: location }}>
+        <img className={styles.image} src={image} alt={description} />
+      </Link>
 
       <div className={styles.actions}>
         <button type="button" className={styles.action} onClick={handleLike}>

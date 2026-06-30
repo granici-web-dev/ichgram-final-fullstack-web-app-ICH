@@ -64,6 +64,15 @@
   gap: 12px;
 }
 
+.options {
+  margin-left: auto;
+}
+
+.options img {
+  width: 24px;
+  height: 24px;
+}
+
 .avatar {
   width: 28px;
   height: 28px;
@@ -178,4 +187,94 @@
 .send:disabled {
   opacity: 0.4;
   cursor: default;
+}
+
+/* Редактирование подписи */
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 12px 16px;
+  border-top: 1px solid var(--color-border);
+}
+
+.editInput {
+  min-height: 60px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 13px;
+  resize: none;
+  outline: none;
+}
+
+.editButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.editCancel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.editSave {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* Меню управления постом */
+.menuOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  max-width: calc(100% - 40px);
+  background-color: var(--color-bg);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.menuTitle {
+  padding: 24px 16px 8px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.menuItem {
+  padding: 16px;
+  font-size: 14px;
+  text-align: center;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.menuTitle + .menuItem {
+  border-top: 1px solid var(--color-border);
+}
+
+.menuItem:last-child {
+  border-bottom: none;
+}
+
+.menuItem:hover {
+  background-color: var(--color-bg-muted);
+}
+
+.menuDanger {
+  font-weight: 600;
+  color: var(--color-error);
 }

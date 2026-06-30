@@ -60,7 +60,15 @@ const profileSlice = createSlice({
     status: 'idle',
     error: null,
   },
-  reducers: {},
+  reducers: {
+    // Убираем удалённый пост из сетки профиля
+    removePost: (state, action) => {
+      state.posts = state.posts.filter((item) => item._id !== action.payload);
+      if (state.user && state.user.postsCount > 0) {
+        state.user.postsCount -= 1;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProfile.pending, (state) => {
@@ -91,4 +99,5 @@ const profileSlice = createSlice({
   },
 });
 
+export const { removePost: removeProfilePost } = profileSlice.actions;
 export default profileSlice.reducer;

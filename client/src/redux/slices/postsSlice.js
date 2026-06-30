@@ -56,7 +56,20 @@ const postsSlice = createSlice({
     status: 'idle',
     error: null,
   },
-  reducers: {},
+  reducers: {
+    // Синхронизируем ленту после удаления/редактирования поста в модалке
+    removePost: (state, action) => {
+      state.items = state.items.filter((item) => item._id !== action.payload);
+    },
+    replacePost: (state, action) => {
+      const index = state.items.findIndex(
+        (item) => item._id === action.payload._id,
+      );
+      if (index !== -1) {
+        state.items[index] = action.payload;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchPosts.pending, (state) => {
@@ -96,4 +109,5 @@ const postsSlice = createSlice({
   },
 });
 
+export const { removePost, replacePost } = postsSlice.actions;
 export default postsSlice.reducer;
