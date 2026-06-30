@@ -32,16 +32,16 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/messages" element={<Messages />} />
-          <Route path="/messages/:userId" element={<Messages />} />
+            <Route path="/messages/:userId" element={<Messages />} />
             <Route path="/profile/:userId" element={<Profile />} />
             <Route path="/edit-profile" element={<EditProfile />} />
             <Route path="/add" element={<AddPost />} />
             {/* Прямой переход по ссылке на пост (без фона) */}
             <Route path="/post/:postId" element={<PostModal />} />
+            {/* 404 внутри макета — с боковым меню и футером */}
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Route>
-
-        <Route path="*" element={<NotFound />} />
       </Routes>
 
       {/* Модалка поста поверх страницы-фона */}
