@@ -66,6 +66,11 @@
   margin-top: 40px;
 }
 
+/* Кнопка выхода прижата к низу сайдбара */
+.logout {
+  margin-top: auto;
+}
+
 .content {
   display: flex;
   flex-direction: column;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { NavLink, Link, Outlet, useLocation } from 'react-router-dom';
+import { NavLink, Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchMe } from '../../redux/slices/authSlice';
+import { fetchMe, logout } from '../../redux/slices/authSlice';
 import Logo from '../Logo';
 import SearchPanel from '../SearchPanel';
 import NotificationsPanel from '../NotificationsPanel';
@@ -11,6 +11,7 @@ import exploreIcon from '../../assets/icons/explore.svg';
 import messagesIcon from '../../assets/icons/messages.svg';
 import notificationsIcon from '../../assets/icons/notifications.svg';
 import createIcon from '../../assets/icons/create.svg';
+import logoutIcon from '../../assets/icons/logout.svg';
 import styles from './styles.module.css';
 
 // Пункты меню: c полем `to` — ссылки, без него — кнопки (Search открывает панель,
@@ -27,6 +28,7 @@ const navItems = [
 function Layout() {
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const [searchOpen, setSearchOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
@@ -43,6 +45,11 @@ function Layout() {
     setSearchOpen(false);
     setNotificationsOpen(false);
   }, [location.pathname]);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/login');
+  };
 
   return (
     <div className={styles.layout}>
@@ -108,6 +115,15 @@ function Layout() {
             <span>Profile</span>
           </NavLink>
         </nav>
+
+        <button
+          type="button"
+          className={`${styles.link} ${styles.logout}`}
+          onClick={handleLogout}
+        >
+          <img className={styles.icon} src={logoutIcon} alt="" />
+          <span>Log out</span>
+        </button>
       </aside>
 
       {searchOpen && <SearchPanel onClose={() => setSearchOpen(false)} />}
