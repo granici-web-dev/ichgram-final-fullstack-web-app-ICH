@@ -15,6 +15,20 @@ export const fetchPosts = createAsyncThunk(
   },
 );
 
+export const createPost = createAsyncThunk(
+  'posts/createPost',
+  async (formData, { rejectWithValue }) => {
+    try {
+      const response = await api.post('/posts', formData);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || 'Ошибка создания поста',
+      );
+    }
+  },
+);
+
 export const toggleLike = createAsyncThunk(
   'posts/toggleLike',
   async (postId, { rejectWithValue }) => {
@@ -56,6 +70,10 @@ const postsSlice = createSlice({
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
+      })
+      // Новый пост добавляем в начало ленты
+      .addCase(createPost.fulfilled, (state, action) => {
+        state.items.unshift(action.payload);
       })
       // Оптимистично переключаем сердечко сразу, не дожидаясь ответа
       .addCase(toggleLike.pending, (state, action) => {
