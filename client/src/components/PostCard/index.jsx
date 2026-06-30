@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { toggleLike } from '../../redux/slices/postsSlice';
 import { timeAgo } from '../../utils/timeAgo';
 import likeIcon from '../../assets/icons/like.svg';
 import likeActiveIcon from '../../assets/icons/like-active.svg';
@@ -6,8 +8,13 @@ import commentIcon from '../../assets/icons/comment.svg';
 import styles from './styles.module.css';
 
 function PostCard({ post }) {
+  const dispatch = useDispatch();
   const { author, image, description, createdAt } = post;
   const { likesCount, commentsCount, isLiked } = post;
+
+  const handleLike = () => {
+    dispatch(toggleLike(post._id));
+  };
 
   return (
     <article className={styles.card}>
@@ -33,7 +40,7 @@ function PostCard({ post }) {
       <img className={styles.image} src={image} alt={description} />
 
       <div className={styles.actions}>
-        <button type="button" className={styles.action}>
+        <button type="button" className={styles.action} onClick={handleLike}>
           <img src={isLiked ? likeActiveIcon : likeIcon} alt="like" />
         </button>
         <button type="button" className={styles.action}>
