@@ -1,0 +1,84 @@
+.card {
+  width: 404px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+}
+
+.avatarLink {
+  display: flex;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--color-border);
+}
+
+.username {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.dot {
+  color: var(--color-text-muted);
+}
+
+.time {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.follow {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.image {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  margin-top: 10px;
+  border-radius: 4px;
+  object-fit: cover;
+  background-color: var(--color-bg-muted);
+}
+
+.actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.action img {
+  width: 24px;
+  height: 24px;
+}
+
+.likes {
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.caption {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.captionUser {
+  font-weight: 600;
+}
+
+.comments {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
