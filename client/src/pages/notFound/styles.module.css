@@ -8,28 +8,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 80px;
+  gap: 5rem;
   flex: 1;
-  padding: 0 40px;
+  padding: 0 2.5rem;
 }
 
 .phone {
-  width: 300px;
+  width: 18.75rem;
 }
 
 .text {
-  max-width: 560px;
+  max-width: 35rem;
 }
 
 .title {
-  font-size: 32px;
+  font-size: 2rem;
   font-weight: 700;
   white-space: nowrap;
 }
 
 .lines {
-  margin-top: 20px;
-  font-size: 16px;
+  margin-top: 1.25rem;
+  font-size: 1rem;
   line-height: 1.7;
   color: var(--color-text-muted);
 }

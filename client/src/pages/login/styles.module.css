@@ -3,72 +3,72 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 1rem;
   background-color: var(--color-bg);
 }
 
 .illustration {
-  width: 380px;
+  width: 23.75rem;
 }
 
 .authColumn {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  width: 350px;
+  gap: 0.75rem;
+  width: 22rem;
 }
 
 .card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 24px 40px 20px;
+  padding: 1.5rem 2.5rem 1.25rem;
   background-color: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: 1px;
+  border: 0.0625rem solid var(--color-border);
+  border-radius: 0.0625rem;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0.5rem;
   width: 100%;
-  margin-top: 28px;
+  margin-top: 1.75rem;
 }
 
 .form button {
-  margin-top: 8px;
+  margin-top: 0.5rem;
 }
 
 .divider {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 1rem;
   width: 100%;
-  margin: 10px 0;
+  margin: 0.75rem 0;
 }
 
 .line {
   flex: 1;
-  height: 1px;
+  height: 0.0625rem;
   background-color: var(--color-border);
 }
 
 .or {
-  font-size: 13px;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--color-text-muted);
 }
 
 .error {
   color: var(--color-error);
-  font-size: 12px;
+  font-size: 0.75rem;
   text-align: center;
 }
 
 .forgot {
-  margin-top: 4px;
-  font-size: 12px;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
   color: var(--color-link-dark);
   text-align: center;
 }
@@ -78,12 +78,12 @@
 }
 
 .signupCard {
-  padding: 20px;
+  padding: 1.25rem;
   text-align: center;
-  font-size: 14px;
+  font-size: 1rem;
   background-color: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: 1px;
+  border: 0.0625rem solid var(--color-border);
+  border-radius: 0.0625rem;
 }
 
 .signupLink {

@@ -2,31 +2,31 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  width: 620px;
+  width: 38.75rem;
   max-width: 100%;
   margin: 0 auto;
-  padding: 30px 0 20px;
+  padding: 2rem 0 1.25rem;
 }
 
 .title {
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 700;
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
 }
 
 .card {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-  padding: 16px;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
   background-color: #efefef;
-  border-radius: 20px;
+  border-radius: 1.25rem;
 }
 
 .avatar {
-  width: 56px;
-  height: 56px;
+  width: 3.5rem;
+  height: 3.5rem;
   border-radius: 50%;
   object-fit: cover;
   background-color: var(--color-border);
@@ -35,25 +35,25 @@
 .cardInfo {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0.25rem;
 }
 
 .cardName {
-  font-size: 14px;
+  font-size: 1rem;
   font-weight: 600;
 }
 
 .cardBio {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--color-text-muted);
 }
 
 .newPhoto {
   flex-shrink: 0;
   margin-left: auto;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 13px;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
   font-weight: 600;
   white-space: nowrap;
   color: #ffffff;
@@ -67,20 +67,20 @@
 .field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-bottom: 20px;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .label {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 600;
 }
 
 .input {
-  padding: 12px 16px;
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-  font-size: 14px;
+  padding: 0.75rem 1rem;
+  border: 0.0625rem solid var(--color-border);
+  border-radius: 0.75rem;
+  font-size: 1rem;
   outline: none;
 }
 
@@ -94,11 +94,11 @@
 
 .textarea {
   width: 100%;
-  min-height: 84px;
-  padding: 12px 16px;
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-  font-size: 14px;
+  min-height: 5.25rem;
+  padding: 0.75rem 1rem;
+  border: 0.0625rem solid var(--color-border);
+  border-radius: 0.75rem;
+  font-size: 1rem;
   line-height: 1.4;
   resize: none;
   outline: none;
@@ -110,23 +110,23 @@
 
 .counter {
   position: absolute;
-  right: 12px;
-  bottom: 10px;
-  font-size: 12px;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  font-size: 0.75rem;
   color: var(--color-text-muted);
 }
 
 .error {
-  margin-bottom: 12px;
-  font-size: 12px;
+  margin-bottom: 0.75rem;
+  font-size: 0.75rem;
   color: var(--color-error);
 }
 
 .save {
-  width: 268px;
-  padding: 9px 0;
-  border-radius: 8px;
-  font-size: 14px;
+  width: 16.75rem;
+  padding: 0.5rem 0;
+  border-radius: 0.5rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #ffffff;
   background-color: var(--color-primary);

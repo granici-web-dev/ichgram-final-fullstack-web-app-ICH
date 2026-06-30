@@ -1,13 +1,13 @@
 .card {
   width: 100%;
-  max-width: 404px;
+  max-width: 25.25rem;
 }
 
 .header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  height: 32px;
+  gap: 0.5rem;
+  height: 2rem;
 }
 
 .avatarLink {
@@ -15,15 +15,15 @@
 }
 
 .avatar {
-  width: 28px;
-  height: 28px;
+  width: 1.75rem;
+  height: 1.75rem;
   border-radius: 50%;
   object-fit: cover;
   background-color: var(--color-border);
 }
 
 .username {
-  font-size: 13px;
+  font-size: 0.75rem;
   font-weight: 600;
 }
 
@@ -32,12 +32,12 @@
 }
 
 .time {
-  font-size: 13px;
+  font-size: 0.75rem;
   color: var(--color-text-muted);
 }
 
 .follow {
-  font-size: 13px;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--color-primary);
 }
@@ -45,32 +45,32 @@
 .image {
   width: 100%;
   aspect-ratio: 4 / 5;
-  margin-top: 10px;
-  border-radius: 4px;
+  margin-top: 0.75rem;
+  border-radius: 0.25rem;
   object-fit: cover;
   background-color: var(--color-bg-muted);
 }
 
 .actions {
   display: flex;
-  gap: 14px;
-  margin-top: 12px;
+  gap: 1rem;
+  margin-top: 0.75rem;
 }
 
 .action img {
-  width: 24px;
-  height: 24px;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .likes {
-  margin-top: 10px;
-  font-size: 13px;
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
   font-weight: 600;
 }
 
 .caption {
-  margin-top: 8px;
-  font-size: 13px;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
   line-height: 1.4;
 }
 
@@ -80,7 +80,7 @@
 
 .comments {
   display: block;
-  margin-top: 8px;
-  font-size: 13px;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
   color: var(--color-text-muted);
 }

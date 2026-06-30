@@ -14,11 +14,21 @@ function Home() {
     dispatch(fetchPosts());
   }, [dispatch]);
 
+  // Группируем посты по 2 в ряд — чтобы между рядами был разделитель на всю ширину
+  const rows = [];
+  for (let i = 0; i < items.length; i += 2) {
+    rows.push(items.slice(i, i + 2));
+  }
+
   return (
     <div className={styles.page}>
       <div className={styles.feed}>
-        {items.map((post) => (
-          <PostCard key={post._id} post={post} />
+        {rows.map((row, index) => (
+          <div className={styles.row} key={index}>
+            {row.map((post) => (
+              <PostCard key={post._id} post={post} />
+            ))}
+          </div>
         ))}
       </div>
 

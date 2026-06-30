@@ -2,59 +2,59 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  width: 935px;
+  width: 58.5rem;
   max-width: 100%;
   margin: 0 auto;
-  padding: 30px 0 20px;
+  padding: 2rem 0 1.25rem;
 }
 
 .header {
   display: flex;
-  gap: 70px;
+  gap: 4.5rem;
   align-items: center;
-  margin-bottom: 44px;
-  padding-left: 20px;
+  margin-bottom: 2.75rem;
+  padding-left: 1.25rem;
 }
 
 /* Аватар с фирменным градиентным кольцом */
 .avatarRing {
   flex-shrink: 0;
-  padding: 4px;
+  padding: 0.25rem;
   border-radius: 50%;
   background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7);
 }
 
 .avatar {
   display: block;
-  width: 150px;
-  height: 150px;
+  width: 9.5rem;
+  height: 9.5rem;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid var(--color-bg);
+  border: 0.25rem solid var(--color-bg);
   background-color: var(--color-border);
 }
 
 .info {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1.25rem;
 }
 
 .topRow {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 1rem;
 }
 
 .username {
-  font-size: 20px;
+  font-size: 1.25rem;
 }
 
 .greyButton,
 .followButton {
-  padding: 8px 24px;
-  border-radius: 8px;
-  font-size: 14px;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 
@@ -78,8 +78,8 @@
 
 .stats {
   display: flex;
-  gap: 40px;
-  font-size: 16px;
+  gap: 2.5rem;
+  font-size: 1rem;
 }
 
 .stats strong {
@@ -87,13 +87,13 @@
 }
 
 .bio {
-  font-size: 14px;
+  font-size: 1rem;
   line-height: 1.4;
   white-space: pre-line;
 }
 
 .website {
-  font-size: 14px;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--color-link-dark);
 }
@@ -101,7 +101,7 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
+  gap: 0.25rem;
 }
 
 .cell {
@@ -117,21 +117,21 @@
 }
 
 .empty {
-  padding: 40px 0;
+  padding: 2.5rem 0;
   text-align: center;
   color: var(--color-text-muted);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
   .page { width: 100%; }
   .header {
-    gap: 24px;
-    padding: 0 16px;
-    margin-bottom: 28px;
+    gap: 1.5rem;
+    padding: 0 1rem;
+    margin-bottom: 1.75rem;
   }
-  .avatarRing { padding: 3px; }
-  .avatar { width: 90px; height: 90px; }
-  .username { font-size: 18px; }
-  .stats { gap: 24px; font-size: 14px; }
-  .grid { gap: 3px; }
+  .avatarRing { padding: 0.25rem; }
+  .avatar { width: 5.75rem; height: 5.75rem; }
+  .username { font-size: 1.25rem; }
+  .stats { gap: 1.5rem; font-size: 1rem; }
+  .grid { gap: 0.25rem; }
 }
