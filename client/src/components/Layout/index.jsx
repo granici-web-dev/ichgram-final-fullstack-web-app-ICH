@@ -126,6 +126,8 @@ function Layout() {
                     type="button"
                     className={isOpen ? `${styles.link} ${styles.active}` : styles.link}
                     onClick={() => {
+                      // На мобильном закрываем меню, иначе панель останется под сайдбаром
+                      setMobileOpen(false);
                       if (item.label === 'Search') {
                         setNotificationsOpen(false);
                         setSearchOpen((open) => !open);

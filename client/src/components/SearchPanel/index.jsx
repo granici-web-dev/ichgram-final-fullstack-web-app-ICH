@@ -65,6 +65,9 @@ function SearchPanel({ onClose }) {
     <>
       <div className={styles.backdrop} onClick={onClose} />
       <aside className={styles.panel}>
+        <button type="button" className={styles.close} onClick={onClose}>
+          ×
+        </button>
         <h2 className={styles.title}>Search</h2>
 
         <div className={styles.inputWrap}>

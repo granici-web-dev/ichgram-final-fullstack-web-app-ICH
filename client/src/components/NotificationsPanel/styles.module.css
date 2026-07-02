@@ -27,6 +27,11 @@
   margin-bottom: 1.5rem;
 }
 
+/* Кнопка закрытия — только на мобильном */
+.close {
+  display: none;
+}
+
 .section {
   font-size: 1rem;
   font-weight: 600;
@@ -102,5 +107,15 @@
     box-shadow: none;
     border-right: none;
     z-index: 18;
+  }
+
+  .close {
+    display: block;
+    position: absolute;
+    top: 0.75rem;
+    right: 1rem;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--color-text);
   }
 }

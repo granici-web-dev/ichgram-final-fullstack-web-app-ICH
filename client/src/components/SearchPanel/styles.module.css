@@ -27,6 +27,11 @@
   margin-bottom: 2.25rem;
 }
 
+/* Кнопка закрытия — только на мобильном */
+.close {
+  display: none;
+}
+
 .inputWrap {
   position: relative;
   padding: 0 0.5rem;
@@ -120,5 +125,15 @@
     box-shadow: none;
     border-right: none;
     z-index: 18;
+  }
+
+  .close {
+    display: block;
+    position: absolute;
+    top: 0.75rem;
+    right: 1rem;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--color-text);
   }
 }
